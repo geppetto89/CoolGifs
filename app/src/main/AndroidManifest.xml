@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="michele.meninno.coolgifs">
 
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".core.CoolGifApplication"
         android:allowBackup="true"

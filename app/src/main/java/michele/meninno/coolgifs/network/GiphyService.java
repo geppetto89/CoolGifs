@@ -1,11 +1,14 @@
 package michele.meninno.coolgifs.network;
 
+
+import io.reactivex.Observable;
+import michele.meninno.coolgifs.network.dto.TrendingResponse;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-public class GiphyService {
+public interface GiphyService {
 
-    //@GET("/gifs/trending")
-
-
+    @GET("/v1/gifs/trending")
+    Observable<TrendingResponse> getTrendings(@Query("offset") int offset, @Query("api_key") String key);
 
 }
