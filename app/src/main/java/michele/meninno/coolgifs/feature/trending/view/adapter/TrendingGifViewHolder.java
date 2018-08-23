@@ -29,8 +29,7 @@ public class TrendingGifViewHolder extends RecyclerView.ViewHolder implements Vi
         String url = gifModel.getFramePreviewUrl();
         Glide.with(itemView.getContext())
                 .load(url)
-                .into(imageView)
-                .onLoadStarted(ContextCompat.getDrawable(itemView.getContext(), R.drawable.place_holder_shape));
+                .into(imageView);
     }
 
     @Override

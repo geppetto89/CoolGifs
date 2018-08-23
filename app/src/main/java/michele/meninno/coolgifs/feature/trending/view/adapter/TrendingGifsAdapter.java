@@ -28,14 +28,14 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void appendsElements(List<TrendingGifsAdapterElement> elements) {
-        int size = 1;
+        int size = 0;
         if (this.elements != null) {
             size = this.elements.size();
         } else {
             this.elements = new ArrayList<>();
         }
         this.elements.addAll(elements);
-        notifyItemRangeInserted(size - 1, elements.size());
+        notifyItemRangeInserted(size, elements.size());
     }
 
     @NonNull
@@ -54,7 +54,7 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         //when reached the last element the activity must be notified
         if (elements != null && position == elements.size() - 1 && onLastElementVisibleListener != null) {
-            onLastElementVisibleListener.onLastElementVisible(elements.size());
+            onLastElementVisibleListener.onLastElementVisible(elements.size()+1);
         }
     }
 
