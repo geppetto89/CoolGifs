@@ -76,6 +76,10 @@ public class GiphyViewModel extends ViewModel {
                 }));
     }
 
+    public GiphyRepository getRepository() {
+        return repository;
+    }
+
     public void clearPreviousCall(){
         compositeDisposable.clear();
     }

@@ -93,4 +93,9 @@ public class GifDetailActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }

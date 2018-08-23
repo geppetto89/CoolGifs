@@ -66,9 +66,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.9.1'
     /*TEST*/
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.powermock:powermock:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
-    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+    androidTestCompile 'org.mockito:mockito-android:2.6.3'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

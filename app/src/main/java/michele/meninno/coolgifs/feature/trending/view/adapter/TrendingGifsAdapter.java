@@ -35,7 +35,7 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.elements = new ArrayList<>();
         }
         this.elements.addAll(elements);
-        notifyItemRangeChanged(size - 1, elements.size());
+        notifyItemRangeInserted(size - 1, elements.size());
     }
 
     @NonNull
@@ -52,6 +52,7 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof TrendingGifViewHolder) {
             ((TrendingGifViewHolder) holder).onBind(((TrendingGifsImageViewElement) elements.get(position)).getGifModel());
         }
+        //when reached the last element the activity must be notified
         if (elements != null && position == elements.size() - 1 && onLastElementVisibleListener != null) {
             onLastElementVisibleListener.onLastElementVisible(elements.size());
         }
@@ -70,10 +71,12 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return 0;
     }
 
+    //listener for creating the infinite scrolling
     public interface OnLastElementVisibleListener {
         void onLastElementVisible(int index);
     }
 
+    //listener for intercepting click on a gif
     public interface OnGifClickListener {
         void onGifClicked(GifModel model);
     }

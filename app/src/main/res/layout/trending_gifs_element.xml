@@ -9,6 +9,7 @@
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardUseCompatPadding="true">
 
+
     <ImageView
         android:id="@+id/trending_gifs_list_iw"
         android:layout_width="match_parent"

@@ -2,6 +2,11 @@ package michele.meninno.coolgifs.feature.trending.model;
 
 import java.util.List;
 
+/**
+ * model to dispatch to the view
+ *
+ * @author Michele Meninno
+ */
 public class TrendingModel {
 
     private boolean hasMoreElement;

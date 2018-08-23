@@ -4,6 +4,11 @@ import michele.meninno.coolgifs.feature.trending.model.GifModel;
 
 import static michele.meninno.coolgifs.feature.trending.view.adapter.TrendingGifsAdapter.TRENDING_GIF_ELEMENT;
 
+/**
+ * Model used by the trending gifs adapter
+ *
+ * @author Michele Meninno
+ */
 public class TrendingGifsImageViewElement implements TrendingGifsAdapterElement {
 
     private GifModel gifModel;

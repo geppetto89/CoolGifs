@@ -3,6 +3,13 @@ package michele.meninno.coolgifs.core;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+/**
+ * Generic resource with status
+ *
+ * @param <T>
+ * @author Michele Meninno
+ */
+
 public class Resource<T> {
 
     @NonNull
