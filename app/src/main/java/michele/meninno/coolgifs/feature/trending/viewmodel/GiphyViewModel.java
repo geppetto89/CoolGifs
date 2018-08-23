@@ -14,6 +14,7 @@ public class GiphyViewModel extends ViewModel {
 
     private GiphyRepository repository;
     private CompositeDisposable compositeDisposable;
+    //gif preview
     private MutableLiveData<Resource<TrendingModel>> trendingLiveData;
     private Resource<TrendingModel> trendingModelResource;
 

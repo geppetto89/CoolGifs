@@ -2,6 +2,7 @@ package michele.meninno.coolgifs.feature.trending.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyViewModel;
 
 public class TrendingGifsActivity extends AppCompatActivity {
 
+    public static final int INITIAL_OFFSET = 0;
     private RecyclerView gifsList;
     private TrendingGifsAdapter trendingGifsAdapter;
     private GiphyViewModel trendingsViewModel;
@@ -43,7 +45,6 @@ public class TrendingGifsActivity extends AppCompatActivity {
             switch (gifs.getStatus()) {
                 case SUCCESS:
                     if (gifs.getData() != null) {
-                        hideLoader();
                         compositeDisposable.add(Observable.fromCallable((Callable<List<TrendingGifsAdapterElement>>) () -> {
                             ArrayList<TrendingGifsAdapterElement> elements = new ArrayList<>();
                             for (GifModel gifModel : gifs.getData().getGifs()) {
@@ -55,6 +56,7 @@ public class TrendingGifsActivity extends AppCompatActivity {
                                 .subscribe(new Consumer<List<TrendingGifsAdapterElement>>() {
                                     @Override
                                     public void accept(List<TrendingGifsAdapterElement> trendingGifsAdapterElements) throws Exception {
+                                        hideLoader();
                                         trendingGifsAdapter.appendsElements(trendingGifsAdapterElements);
                                     }
                                 }));
@@ -79,7 +81,7 @@ public class TrendingGifsActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.trending_gifs_progress);
         errorLabel = findViewById(R.id.error_label);
         setUI();
-        trendingsViewModel.getTrendingGifs(0);
+        trendingsViewModel.getTrendingGifs(INITIAL_OFFSET);
     }
 
     private void setUI() {
@@ -89,16 +91,17 @@ public class TrendingGifsActivity extends AppCompatActivity {
         trendingsViewModel = ViewModelProviders.of(this).get(GiphyViewModel.class);
         trendingsViewModel.getTrendingLiveData().observe(this, resourceObserver);
         gifsList.setAdapter(trendingGifsAdapter);
+        trendingGifsAdapter.setOnGifClickListener(model -> {
+            Intent i = new Intent();
+            i.putExtra(GifDetailActivity.EXTRA_GIF, model);
+            i.setClass(TrendingGifsActivity.this, GifDetailActivity.class);
+            startActivity(i);
+        });
         setInfiniteScroll();
     }
 
     private void setInfiniteScroll() {
-        trendingGifsAdapter.setOnLastElementVisibleListener(new TrendingGifsAdapter.OnLastElementVisibleListener() {
-            @Override
-            public void onLastElementVisible(int index) {
-                trendingsViewModel.getTrendingGifs(index);
-            }
-        });
+        trendingGifsAdapter.setOnLastElementVisibleListener(index -> trendingsViewModel.getTrendingGifs(index));
     }
 
     private void showLoader() {

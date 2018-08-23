@@ -1,6 +1,8 @@
 package michele.meninno.coolgifs.feature.trending.model;
 
-public class GifModel {
+import java.io.Serializable;
+
+public class GifModel implements Serializable {
 
     private String framePreviewUrl;
     private String gifUrl;

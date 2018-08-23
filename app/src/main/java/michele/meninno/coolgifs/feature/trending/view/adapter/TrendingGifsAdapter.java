@@ -17,6 +17,11 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private List<TrendingGifsAdapterElement> elements;
     private OnLastElementVisibleListener onLastElementVisibleListener;
+    private OnGifClickListener onGifClickListener;
+
+    public void setOnGifClickListener(OnGifClickListener onGifClickListener) {
+        this.onGifClickListener = onGifClickListener;
+    }
 
     public void setOnLastElementVisibleListener(OnLastElementVisibleListener onLastElementVisibleListener) {
         this.onLastElementVisibleListener = onLastElementVisibleListener;
@@ -37,7 +42,7 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TRENDING_GIF_ELEMENT) {
-            return new TrendingGifViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.trending_gifs_element, parent, false));
+            return new TrendingGifViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.trending_gifs_element, parent, false), onGifClickListener);
         }
         return null;
     }
@@ -47,7 +52,7 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof TrendingGifViewHolder) {
             ((TrendingGifViewHolder) holder).onBind(((TrendingGifsImageViewElement) elements.get(position)).getGifModel());
         }
-        if (position == elements.size() - 1 && onLastElementVisibleListener != null) {
+        if (elements != null && position == elements.size() - 1 && onLastElementVisibleListener != null) {
             onLastElementVisibleListener.onLastElementVisible(elements.size());
         }
     }
@@ -67,5 +72,9 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnLastElementVisibleListener {
         void onLastElementVisible(int index);
+    }
+
+    public interface OnGifClickListener {
+        void onGifClicked(GifModel model);
     }
 }
