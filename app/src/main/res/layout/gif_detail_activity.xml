@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/gif_detail"
-        android:adjustViewBounds="true"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:background="@android:color/white">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/gif_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/default_padding"
+            android:layout_marginRight="@dimen/default_padding"
+            android:adjustViewBounds="true" />
+
+        <include layout="@layout/progress_bar_layout" />
+
+        <TextView
+            android:id="@+id/error_label"
+            style="@style/ErrorViewStyle" />
+
+    </FrameLayout>
+</ScrollView>

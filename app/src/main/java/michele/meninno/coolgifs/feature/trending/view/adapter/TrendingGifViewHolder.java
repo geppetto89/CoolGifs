@@ -1,5 +1,6 @@
 package michele.meninno.coolgifs.feature.trending.view.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,7 +28,8 @@ public class TrendingGifViewHolder extends RecyclerView.ViewHolder implements Vi
         String url = gifModel.getFramePreviewUrl();
         Glide.with(itemView.getContext())
                 .load(url)
-                .into(imageView);
+                .into(imageView)
+                .onLoadStarted(ContextCompat.getDrawable(itemView.getContext(), R.drawable.place_holder_shape));
     }
 
     @Override

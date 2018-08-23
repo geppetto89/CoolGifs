@@ -64,6 +64,7 @@ public class TrendingGifsActivity extends AppCompatActivity {
                     break;
                 case ERROR:
                     hideLoader();
+                    gifsList.setVisibility(View.INVISIBLE);
                     errorLabel.setVisibility(View.VISIBLE);
                     break;
                 case LOADING:
@@ -91,12 +92,7 @@ public class TrendingGifsActivity extends AppCompatActivity {
         trendingsViewModel = ViewModelProviders.of(this).get(GiphyViewModel.class);
         trendingsViewModel.getTrendingLiveData().observe(this, resourceObserver);
         gifsList.setAdapter(trendingGifsAdapter);
-        trendingGifsAdapter.setOnGifClickListener(model -> {
-            Intent i = new Intent();
-            i.putExtra(GifDetailActivity.EXTRA_GIF, model);
-            i.setClass(TrendingGifsActivity.this, GifDetailActivity.class);
-            startActivity(i);
-        });
+        trendingGifsAdapter.setOnGifClickListener(onGifClickListener);
         setInfiniteScroll();
     }
 
@@ -118,4 +114,11 @@ public class TrendingGifsActivity extends AppCompatActivity {
         compositeDisposable.clear();
         trendingsViewModel.clearPreviousCall();
     }
+
+    private TrendingGifsAdapter.OnGifClickListener onGifClickListener = model -> {
+        Intent i = new Intent();
+        i.putExtra(GifDetailActivity.EXTRA_GIF, model);
+        i.setClass(TrendingGifsActivity.this, GifDetailActivity.class);
+        startActivity(i);
+    };
 }

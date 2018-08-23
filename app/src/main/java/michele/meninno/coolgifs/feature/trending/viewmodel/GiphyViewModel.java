@@ -26,10 +26,6 @@ public class GiphyViewModel extends ViewModel {
         return randomGifLiveData;
     }
 
-    public Resource<GifModel> getGifModelResource() {
-        return gifModelResource;
-    }
-
     public MutableLiveData<Resource<TrendingModel>> getTrendingLiveData() {
         return trendingLiveData;
     }
@@ -41,7 +37,6 @@ public class GiphyViewModel extends ViewModel {
         repository = CoolGifApplication.getInstance().getRepositoryFactory().makeGiphyRepository();
         trendingModelResource = new Resource<>(Resource.Status.EMPTY, null, null);
         gifModelResource = new Resource<>(Resource.Status.EMPTY, null, null);
-
     }
 
 
