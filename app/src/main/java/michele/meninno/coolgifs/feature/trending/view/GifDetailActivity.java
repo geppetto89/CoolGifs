@@ -15,16 +15,20 @@ import com.bumptech.glide.Glide;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import michele.meninno.coolgifs.R;
+import michele.meninno.coolgifs.core.BaseActivity;
 import michele.meninno.coolgifs.core.Resource;
+import michele.meninno.coolgifs.di.module.ViewModelFactory;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
 import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyViewModel;
 
-public class GifDetailActivity extends AppCompatActivity {
+public class GifDetailActivity extends BaseActivity {
 
     public static final String EXTRA_GIF = "EXTRA_GIF";
     public static final int REFRESH_GIF_TIME = 10;
@@ -33,6 +37,9 @@ public class GifDetailActivity extends AppCompatActivity {
     private GiphyViewModel giphyViewModel;
     private FrameLayout progressBar;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Inject
+    ViewModelFactory viewModelFactory;
+
 
     private Observer<Resource<GifModel>> gifModelObserver = gif -> {
         if (gif != null) {
@@ -61,7 +68,7 @@ public class GifDetailActivity extends AppCompatActivity {
         setContentView(R.layout.gif_detail_activity);
         imageView = findViewById(R.id.gif_detail);
         errorLabel = findViewById(R.id.error_label);
-        giphyViewModel = ViewModelProviders.of(this).get(GiphyViewModel.class);
+        giphyViewModel = ViewModelProviders.of(this, viewModelFactory).get(GiphyViewModel.class);
         giphyViewModel.getRandomGifLiveData().observe(this, gifModelObserver);
         progressBar = findViewById(R.id.trending_gifs_progress);
         setGifShuffling();

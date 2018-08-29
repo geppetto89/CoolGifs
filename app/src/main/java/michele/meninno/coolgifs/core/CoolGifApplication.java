@@ -1,30 +1,21 @@
 package michele.meninno.coolgifs.core;
 
-import android.app.Application;
+import dagger.android.AndroidInjector;
+import dagger.android.support.DaggerApplication;
+import michele.meninno.coolgifs.di.component.ApplicationComponent;
+import michele.meninno.coolgifs.di.component.DaggerApplicationComponent;
 
-import michele.meninno.coolgifs.factory.RepositoryFactory;
-import michele.meninno.coolgifs.factory.impl.RepositoryFactoryDefault;
-
-public class CoolGifApplication extends Application {
-
-    private RepositoryFactory repositoryFactory;
-
-    private static CoolGifApplication instance;
-
-    public RepositoryFactory getRepositoryFactory() {
-        return repositoryFactory;
-    }
-
-    public static CoolGifApplication getInstance() {
-        return instance;
-    }
+public class CoolGifApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
-        repositoryFactory = new RepositoryFactoryDefault();
-
     }
 
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        ApplicationComponent component = DaggerApplicationComponent.builder().application(this).build();
+        component.inject(this);
+        return component;
+    }
 }

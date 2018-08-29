@@ -16,13 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import michele.meninno.coolgifs.R;
+import michele.meninno.coolgifs.core.BaseActivity;
 import michele.meninno.coolgifs.core.Resource;
+import michele.meninno.coolgifs.di.module.ViewModelFactory;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
 import michele.meninno.coolgifs.feature.trending.model.TrendingModel;
 import michele.meninno.coolgifs.feature.trending.view.adapter.TrendingGifsAdapter;
@@ -30,15 +34,17 @@ import michele.meninno.coolgifs.feature.trending.view.adapter.TrendingGifsAdapte
 import michele.meninno.coolgifs.feature.trending.view.adapter.TrendingGifsImageViewElement;
 import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyViewModel;
 
-public class TrendingGifsActivity extends AppCompatActivity {
+public class TrendingGifsActivity extends BaseActivity {
 
     public static final int INITIAL_OFFSET = 0;
     private RecyclerView gifsList;
     private TrendingGifsAdapter trendingGifsAdapter;
-    private GiphyViewModel trendingsViewModel;
     private FrameLayout progressBar;
     private TextView errorLabel;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    @Inject ViewModelFactory viewModelFactory;
+    private GiphyViewModel trendingsViewModel;
 
     private Observer<Resource<TrendingModel>> resourceObserver = gifs -> {
         if (gifs != null) {
@@ -89,7 +95,7 @@ public class TrendingGifsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         gifsList.setLayoutManager(layoutManager);
         trendingGifsAdapter = new TrendingGifsAdapter();
-        trendingsViewModel = ViewModelProviders.of(this).get(GiphyViewModel.class);
+        trendingsViewModel = ViewModelProviders.of(this, viewModelFactory).get(GiphyViewModel.class);
         trendingsViewModel.getTrendingLiveData().observe(this, resourceObserver);
         gifsList.setAdapter(trendingGifsAdapter);
         trendingGifsAdapter.setOnGifClickListener(onGifClickListener);

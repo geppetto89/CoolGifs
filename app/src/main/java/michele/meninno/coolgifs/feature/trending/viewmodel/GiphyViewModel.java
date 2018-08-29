@@ -3,6 +3,8 @@ package michele.meninno.coolgifs.feature.trending.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import michele.meninno.coolgifs.core.CoolGifApplication;
@@ -10,6 +12,7 @@ import michele.meninno.coolgifs.core.Resource;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
 import michele.meninno.coolgifs.feature.trending.model.TrendingModel;
 import michele.meninno.coolgifs.repository.GiphyRepository;
+import michele.meninno.coolgifs.repository.GiphyRepositoryImpl;
 
 public class GiphyViewModel extends ViewModel {
 
@@ -30,15 +33,15 @@ public class GiphyViewModel extends ViewModel {
         return trendingLiveData;
     }
 
-    public GiphyViewModel() {
+    @Inject
+    public GiphyViewModel(GiphyRepositoryImpl repository){
+        this.repository = repository;
         compositeDisposable = new CompositeDisposable();
         trendingLiveData = new MutableLiveData<>();
         randomGifLiveData = new MutableLiveData<>();
-        repository = CoolGifApplication.getInstance().getRepositoryFactory().makeGiphyRepository();
         trendingModelResource = new Resource<>(Resource.Status.EMPTY, null, null);
         gifModelResource = new Resource<>(Resource.Status.EMPTY, null, null);
     }
-
 
     public void getTrendingGifs(int offset) {
         if(!trendingModelResource.getStatus().equals(Resource.Status.LOADING)) {

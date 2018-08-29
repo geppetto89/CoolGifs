@@ -1,11 +1,12 @@
 package michele.meninno.coolgifs.repository;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
 import michele.meninno.coolgifs.feature.trending.model.TrendingModel;
 import michele.meninno.coolgifs.network.GiphyService;
-import michele.meninno.coolgifs.network.RetrofitClient;
 
 public class GiphyRepositoryImpl implements GiphyRepository {
 
@@ -15,7 +16,11 @@ public class GiphyRepositoryImpl implements GiphyRepository {
     private GiphyService service;
 
     public GiphyRepositoryImpl() {
-        service = RetrofitClient.getClient().create(GiphyService.class);
+    }
+
+    @Inject
+    public GiphyRepositoryImpl(GiphyService service) {
+        this.service = service;
         trendingGifsMapper = new TrendingGifsMapper();
         gifMapper = new RandomGifMapper();
     }
