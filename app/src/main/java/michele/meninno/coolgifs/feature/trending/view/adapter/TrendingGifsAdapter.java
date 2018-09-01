@@ -23,10 +23,6 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.onGifClickListener = onGifClickListener;
     }
 
-    public void setOnLastElementVisibleListener(OnLastElementVisibleListener onLastElementVisibleListener) {
-        this.onLastElementVisibleListener = onLastElementVisibleListener;
-    }
-
     public void appendsElements(List<TrendingGifsAdapterElement> elements) {
         int size = 0;
         if (this.elements != null) {
@@ -51,10 +47,6 @@ public class TrendingGifsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TrendingGifViewHolder) {
             ((TrendingGifViewHolder) holder).onBind(((TrendingGifsImageViewElement) elements.get(position)).getGifModel());
-        }
-        //when reached the last element the activity must be notified
-        if (elements != null && position == elements.size() - 1 && onLastElementVisibleListener != null) {
-            onLastElementVisibleListener.onLastElementVisible(elements.size()+1);
         }
     }
 

@@ -37,13 +37,15 @@ import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyViewModel;
 public class TrendingGifsActivity extends BaseActivity {
 
     public static final int INITIAL_OFFSET = 0;
+    public static final int INT = 10;
     private RecyclerView gifsList;
     private TrendingGifsAdapter trendingGifsAdapter;
     private FrameLayout progressBar;
     private TextView errorLabel;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    @Inject ViewModelFactory viewModelFactory;
+    @Inject
+    ViewModelFactory viewModelFactory;
     private GiphyViewModel trendingsViewModel;
 
     private Observer<Resource<TrendingModel>> resourceObserver = gifs -> {
@@ -99,11 +101,23 @@ public class TrendingGifsActivity extends BaseActivity {
         trendingsViewModel.getTrendingLiveData().observe(this, resourceObserver);
         gifsList.setAdapter(trendingGifsAdapter);
         trendingGifsAdapter.setOnGifClickListener(onGifClickListener);
-        setInfiniteScroll();
-    }
+        gifsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
-    private void setInfiniteScroll() {
-        trendingGifsAdapter.setOnLastElementVisibleListener(index -> trendingsViewModel.getTrendingGifs(index));
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = layoutManager.getItemCount();
+                int visibleItemCount = layoutManager.getChildCount();
+                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    trendingsViewModel.getTrendingGifs(totalItemCount);
+                }
+            }
+        });
     }
 
     private void showLoader() {
