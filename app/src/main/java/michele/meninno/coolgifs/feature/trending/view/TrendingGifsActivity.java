@@ -101,6 +101,10 @@ public class TrendingGifsActivity extends BaseActivity {
         trendingsViewModel.getTrendingLiveData().observe(this, resourceObserver);
         gifsList.setAdapter(trendingGifsAdapter);
         trendingGifsAdapter.setOnGifClickListener(onGifClickListener);
+        setInfiniteScroll(layoutManager);
+    }
+
+    private void setInfiniteScroll(LinearLayoutManager layoutManager) {
         gifsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
