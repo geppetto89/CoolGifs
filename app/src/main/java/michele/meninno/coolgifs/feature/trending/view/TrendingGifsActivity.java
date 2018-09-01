@@ -118,7 +118,6 @@ public class TrendingGifsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
-        trendingsViewModel.clearPreviousCall();
     }
 
     private TrendingGifsAdapter.OnGifClickListener onGifClickListener = model -> {

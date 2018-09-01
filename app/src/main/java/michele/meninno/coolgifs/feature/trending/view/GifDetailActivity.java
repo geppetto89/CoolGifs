@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,33 +12,35 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import michele.meninno.coolgifs.R;
 import michele.meninno.coolgifs.core.BaseActivity;
 import michele.meninno.coolgifs.core.Resource;
 import michele.meninno.coolgifs.di.module.ViewModelFactory;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
-import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyViewModel;
+import michele.meninno.coolgifs.feature.trending.viewmodel.GiphyDetailViewModel;
 
 public class GifDetailActivity extends BaseActivity {
 
     public static final String EXTRA_GIF = "EXTRA_GIF";
-    public static final int REFRESH_GIF_TIME = 10;
-    private ImageView imageView;
-    private TextView errorLabel;
-    private GiphyViewModel giphyViewModel;
-    private FrameLayout progressBar;
+    //injected view
+    @BindView(R.id.gif_detail)
+    ImageView imageView;
+    @BindView(R.id.error_label)
+    TextView errorLabel;
+    @BindView(R.id.title_label)
+    TextView titleLabel;
+    @BindView(R.id.trending_gifs_progress)
+    FrameLayout progressBar;
+    private GiphyDetailViewModel giphyViewModel;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Inject
     ViewModelFactory viewModelFactory;
-
 
     private Observer<Resource<GifModel>> gifModelObserver = gif -> {
         if (gif != null) {
@@ -47,42 +48,44 @@ public class GifDetailActivity extends BaseActivity {
                 case SUCCESS:
                     if (gif.getData() != null) {
                         setCurrentGif(gif.getData());
-                        hideLoader();
                     }
                     break;
                 case ERROR:
-                    hideLoader();
                     imageView.setVisibility(View.INVISIBLE);
                     errorLabel.setVisibility(View.VISIBLE);
                     break;
                 case LOADING:
-                    showLoader();
                     break;
             }
         }
     };
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        giphyViewModel.getRandomGifEveryTenSecond();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        giphyViewModel.stopRandomCall();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gif_detail_activity);
-        imageView = findViewById(R.id.gif_detail);
-        errorLabel = findViewById(R.id.error_label);
-        giphyViewModel = ViewModelProviders.of(this, viewModelFactory).get(GiphyViewModel.class);
+        ButterKnife.bind(this);
+        giphyViewModel = ViewModelProviders.of(this, viewModelFactory).get(GiphyDetailViewModel.class);
         giphyViewModel.getRandomGifLiveData().observe(this, gifModelObserver);
         progressBar = findViewById(R.id.trending_gifs_progress);
-        setGifShuffling();
         if (getIntent().hasExtra(EXTRA_GIF)) {
             setCurrentGif((GifModel) getIntent().getSerializableExtra(EXTRA_GIF));
         }
     }
 
-    private void setGifShuffling() {
-        compositeDisposable.add(Observable.interval(REFRESH_GIF_TIME, TimeUnit.SECONDS, Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(tick -> giphyViewModel.getRandomGif())
-                .subscribe());
-    }
 
     private void setCurrentGif(GifModel gif) {
         String url = gif.getGifUrl();
@@ -91,14 +94,6 @@ public class GifDetailActivity extends BaseActivity {
                 .into(imageView).onLoadStarted(ContextCompat.getDrawable(this, R.drawable.place_holder_shape));
     }
 
-
-    private void showLoader() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideLoader() {
-        progressBar.setVisibility(View.GONE);
-    }
 
     @Override
     protected void onDestroy() {

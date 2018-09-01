@@ -7,23 +7,41 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/gif_detail"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/default_padding"
-            android:layout_marginRight="@dimen/default_padding"
-            android:adjustViewBounds="true" />
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <TextView
+                android:text="@string/loading_gif_label"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:id="@+id/title_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/gif_detail"
+                android:textColor="@android:color/black" />
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:id="@+id/gif_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gif_preview_height"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/default_padding"
+                android:layout_marginRight="@dimen/default_padding"
+                android:adjustViewBounds="true" />
+
+        </RelativeLayout>
 
         <include layout="@layout/progress_bar_layout" />
 
         <TextView
             android:id="@+id/error_label"
             style="@style/ErrorViewStyle" />
-
     </FrameLayout>
 </ScrollView>

@@ -2,4 +2,5 @@
     <string name="app_name">CoolGifs</string>
     <string name="action_settings">Settings</string>
     <string name="error_while_loading">error while loading</string>
+    <string name="loading_gif_label">loading a new gif..</string>
 </resources>
