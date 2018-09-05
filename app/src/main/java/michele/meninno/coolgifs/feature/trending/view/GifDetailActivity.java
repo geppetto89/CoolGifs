@@ -82,7 +82,7 @@ public class GifDetailActivity extends BaseActivity {
         giphyViewModel.getRandomGifLiveData().observe(this, gifModelObserver);
         progressBar = findViewById(R.id.trending_gifs_progress);
         if (getIntent().hasExtra(EXTRA_GIF)) {
-            setCurrentGif((GifModel) getIntent().getSerializableExtra(EXTRA_GIF));
+            setCurrentGif(getIntent().getParcelableExtra(EXTRA_GIF));
         }
     }
 

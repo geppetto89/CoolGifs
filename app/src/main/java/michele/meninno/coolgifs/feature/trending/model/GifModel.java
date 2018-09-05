@@ -1,12 +1,13 @@
 package michele.meninno.coolgifs.feature.trending.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Model to dispatch to the view
  * @author Michele Meninno
  */
-public class GifModel implements Serializable {
+public class GifModel implements Parcelable {
 
     private String framePreviewUrl;
     private String gifUrl;
@@ -31,4 +32,32 @@ public class GifModel implements Serializable {
     public void setGifUrl(String gifUrl) {
         this.gifUrl = gifUrl;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.framePreviewUrl);
+        dest.writeString(this.gifUrl);
+    }
+
+    protected GifModel(Parcel in) {
+        this.framePreviewUrl = in.readString();
+        this.gifUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<GifModel> CREATOR = new Parcelable.Creator<GifModel>() {
+        @Override
+        public GifModel createFromParcel(Parcel source) {
+            return new GifModel(source);
+        }
+
+        @Override
+        public GifModel[] newArray(int size) {
+            return new GifModel[size];
+        }
+    };
 }
