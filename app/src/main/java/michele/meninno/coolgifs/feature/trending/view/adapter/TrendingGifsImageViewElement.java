@@ -2,8 +2,6 @@ package michele.meninno.coolgifs.feature.trending.view.adapter;
 
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
 
-import static michele.meninno.coolgifs.feature.trending.view.adapter.TrendingGifsAdapter.TRENDING_GIF_ELEMENT;
-
 /**
  * Model used by the trending gifs adapter
  *
@@ -25,8 +23,4 @@ public class TrendingGifsImageViewElement implements TrendingGifsAdapterElement 
         this.gifModel = gifModel;
     }
 
-    @Override
-    public int getItemType() {
-        return TRENDING_GIF_ELEMENT;
-    }
 }
