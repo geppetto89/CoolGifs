@@ -1,5 +1,5 @@
 package michele.meninno.coolgifs.feature.trending.view.adapter;
 
-public interface TrendingGifsAdapterElement {
-    String getId();
+public interface RetryCallback {
+    void retry();
 }

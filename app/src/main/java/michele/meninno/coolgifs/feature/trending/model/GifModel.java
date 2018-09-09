@@ -11,11 +11,14 @@ public class GifModel implements Parcelable {
 
     private String framePreviewUrl;
     private String gifUrl;
+    private String id;
 
-    public GifModel(String framePreviewUrl, String gifUrl) {
+    public GifModel(String framePreviewUrl, String gifUrl, String id) {
         this.framePreviewUrl = framePreviewUrl;
         this.gifUrl = gifUrl;
+        this.id = id;
     }
+
 
     public String getFramePreviewUrl() {
         return framePreviewUrl;
@@ -31,6 +34,10 @@ public class GifModel implements Parcelable {
 
     public void setGifUrl(String gifUrl) {
         this.gifUrl = gifUrl;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

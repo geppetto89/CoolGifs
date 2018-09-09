@@ -23,4 +23,8 @@ public class TrendingGifsImageViewElement implements TrendingGifsAdapterElement 
         this.gifModel = gifModel;
     }
 
+    @Override
+    public String getId() {
+        return gifModel.getId();
+    }
 }

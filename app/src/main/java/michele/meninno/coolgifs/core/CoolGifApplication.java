@@ -7,6 +7,8 @@ import michele.meninno.coolgifs.di.component.DaggerApplicationComponent;
 
 public class CoolGifApplication extends DaggerApplication {
 
+    public static final String apikey = "dc6zaTOxFJmzC";
+
     @Override
     public void onCreate() {
         super.onCreate();

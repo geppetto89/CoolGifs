@@ -1,7 +1,10 @@
 package michele.meninno.coolgifs.feature.trending.viewmodel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import michele.meninno.coolgifs.core.Resource;
 import michele.meninno.coolgifs.feature.trending.model.GifModel;
+import michele.meninno.coolgifs.feature.trending.model.datasource.GifDataSourceFactory;
 import michele.meninno.coolgifs.repository.GiphyRepository;
 import michele.meninno.coolgifs.repository.GiphyRepositoryImpl;
 
@@ -27,6 +31,7 @@ public class GiphyDetailViewModel extends ViewModel {
     private MutableLiveData<Resource<GifModel>> randomGifLiveData;
     private Resource<GifModel> gifModelResource;
 
+
     public MutableLiveData<Resource<GifModel>> getRandomGifLiveData() {
         return randomGifLiveData;
     }
@@ -38,6 +43,7 @@ public class GiphyDetailViewModel extends ViewModel {
         randomGifLiveData = new MutableLiveData<>();
         gifModelResource = new Resource<>(Resource.Status.EMPTY, null, null);
     }
+
 
     public void getRandomGifEveryTenSecond(){
         gifModelResource.setStatus(Resource.Status.LOADING);

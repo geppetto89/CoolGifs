@@ -15,7 +15,12 @@ import michele.meninno.coolgifs.di.module.ApplicationModule;
 import michele.meninno.coolgifs.di.module.ContextModule;
 
 @Singleton
-@Component(modules =  {ContextModule.class, ApplicationModule.class, AndroidSupportInjectionModule.class, ActivityBindingModule.class})
+@Component(modules =
+        {
+                ContextModule.class,
+                ApplicationModule.class,
+                AndroidSupportInjectionModule.class,
+                ActivityBindingModule.class})
 public interface ApplicationComponent extends AndroidInjector<DaggerApplication> {
 
     void inject(CoolGifApplication instance);

@@ -8,9 +8,10 @@ import michele.meninno.coolgifs.feature.trending.model.GifModel;
 import michele.meninno.coolgifs.feature.trending.model.TrendingModel;
 import michele.meninno.coolgifs.network.GiphyService;
 
+import static michele.meninno.coolgifs.core.CoolGifApplication.apikey;
+
 public class GiphyRepositoryImpl implements GiphyRepository {
 
-    private static final String apikey = "dc6zaTOxFJmzC";
     private TrendingGifsMapper trendingGifsMapper;
     private RandomGifMapper gifMapper;
     private GiphyService service;
